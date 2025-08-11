@@ -1,0 +1,22 @@
+<div class="container" *ngIf="hasSubmitted; else codeInput">
+    <div class="activate-message" *ngIf="isOkay; else activateError">
+        <h4 class="text-center">Account Activated!</h4>
+        <h6 class="text-center mb-2">{{ message }}</h6>
+        <button (click)="redirectToLogin()" class="btn btn-primary ms-auto">Go to Login</button>
+    </div>
+
+    <ng-template #activateError>
+        <h4 class="text-center text-danger">Activation Failed!</h4>
+        <h6 class="text-center mb-3 text-danger">{{ message }}</h6>
+        <button (click)="hasSubmitted = false" class="btn btn-primary ms-auto">Try Again</button>
+    </ng-template>
+</div>
+
+<ng-template #codeInput>
+    <div class="container ms-auto">
+        <h4 class="text-center mb-4">Enter Activation Code</h4>
+        <code-input [isCodeHidden]="false" [codeLength]="6" [code]="'number'" (codeChanged)="onCodeChanged($event)"
+            (codeCompleted)="onCodeCompleted($event)">
+        </code-input>
+    </div>
+</ng-template>

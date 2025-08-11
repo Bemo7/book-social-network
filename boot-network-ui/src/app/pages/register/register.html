@@ -1,0 +1,48 @@
+<ng-container *ngIf="errorMsg.length > 0">
+    <div class="container my-3">
+        <div *ngFor="let error of errorMsg" class="alert alert-danger alert-dismissible fade show mb-2">
+            <p class="mb-0">{{ error }}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+</ng-container>
+<div class="container card ms-auto my-4">
+    <div class="card-body">
+        <h4 class="card-title text-center">Register</h4>
+        <hr>
+        <form (ngSubmit)="onRegister()" [formGroup]="registerForm">
+            <div class="mb-5">
+                <div class="mb-3">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="firstName" formControlName="firstName"
+                        placeholder="Enter your first name" name="firstName" required>
+                </div>
+                <div class="mb-3">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" formControlName="lastName"
+                        placeholder="Enter your last name" name="lastName" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" formControlName="email"
+                        placeholder="Enter your email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" formControlName="password"
+                        placeholder="Enter your password" name="password" required>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary d-flex align-items-center gap-2"
+                    [disabled]="registerForm.invalid">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i> <span>Create Account</span></button>
+                <div class="d-flex align-items-end gap-2">
+                    <p class="mb-0" style="font-size: 14px; color: hsla(0, 0%, 0%, 0.5);">Already have an account?</p>
+                    <a href="javascript:void(0)" (click)="onLogin()">Login</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
