@@ -4,10 +4,10 @@ import com.bemojr.book_network.dto.UserDetailsDto;
 import com.bemojr.book_network.entity.User;
 import com.bemojr.book_network.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/{user-id}")
-    @Secured({"ROLE_ADMIN"})
+    @PreAuthorize("hasAnyAuthority('admin','user')")
     public ResponseEntity<?> getUserDetails(
             @PathVariable("user-id") Integer userId
     ) {

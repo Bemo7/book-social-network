@@ -5,6 +5,11 @@ spring:
     password: ${DB_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090
   jpa:
     hibernate:
       ddl-auto: create-drop

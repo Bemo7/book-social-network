@@ -21,6 +21,8 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 @RequiredArgsConstructor
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
+    private final KeyCloakJwtAuthenticationConverter keyCloakJwtAuthenticationConverter;
+
     private static final String[] WHITELIST = {
             "/auth/**",
             "/v*/api-docs/**",
@@ -30,8 +32,8 @@ public class SecurityConfig {
             "/webjars/**"
     };
 
-    private final AuthenticationProvider authenticationProvider;
-    private final JwtFilter jwtAuthFilter;
+//    private final AuthenticationProvider authenticationProvider;
+//    private final JwtFilter jwtAuthFilter;
     private final LogoutHandler logoutHandler;
 
     @Bean
@@ -47,21 +49,23 @@ public class SecurityConfig {
                                 .anyRequest()
                                 .authenticated()
                 )
-                .sessionManagement(
-                        sessionManagementConfigurer -> sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(
-                        jwtAuthFilter,
-                        UsernamePasswordAuthenticationFilter.class
-                ).logout(
+                .oauth2ResourceServer(
+                        config -> config.jwt(
+                                jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(keyCloakJwtAuthenticationConverter)
+
+                        ))
+                .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .authenticationProvider(authenticationProvider)
+//                .addFilterBefore(jwtAuthFilter,
+//                        UsernamePasswordAuthenticationFilter.class)
+                .logout(
                         logoutConfigurer -> logoutConfigurer.addLogoutHandler(logoutHandler)
 //                                .logoutUrl("/auth/logout")
                                 .clearAuthentication(true)
-                                .logoutSuccessHandler(
-                                        (request, response, authentication) -> SecurityContextHolder.clearContext()
-                                )
-                )
+                                .logoutSuccessHandler((request,
+                                                       response,
+                                                       authentication) -> SecurityContextHolder.clearContext()
+                                ))
                 .build();
     }
 }

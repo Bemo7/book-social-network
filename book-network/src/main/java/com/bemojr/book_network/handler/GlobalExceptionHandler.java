@@ -1,4 +1,4 @@
-package com.bemojr.book_network.advice;
+package com.bemojr.book_network.handler;
 
 import com.bemojr.book_network.dto.ErrorResponse;
 import com.bemojr.book_network.enumeration.BusinessErrorCode;
